@@ -1,11 +1,244 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ja">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>自己紹介</title>
+  <meta name="description" content="バイクと旅とものづくりの記録です。">
+
+  <!-- ★検索エンジンに載せたくない場合は次の行のコメントを外す -->
+  <!-- <meta name="robots" content="noindex"> -->
+
+  <link rel="icon" href="favicon.ico">
+
+  <!-- CSSは必ずこの順番（後のものが優先される） -->
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/common.css">
+  <link rel="stylesheet" href="css/index.css">
 </head>
 <body>
-    hello world
+
+  <!-- ==========================================
+       ヘッダー（トップページなので戻るリンクなし）
+       ========================================== -->
+  <header class="site-header">
+    <div class="container site-header__inner">
+      <span class="site-header__logo">たにし堂</span>
+    </div>
+  </header>
+
+
+  <main>
+
+    <!-- ==========================================
+         一番上：顔写真と名前
+         ========================================== -->
+    <section class="hero container">
+      <div class="paper paper--tape tilt-l1 hero__card">
+        <img
+          class="hero__photo"
+          src="img/profile/profile.jpg"
+          alt="プロフィール写真">
+
+        <h1 class="hero__name">
+          たにし ○○
+          <span class="hero__name-en">TANISHI</span>
+        </h1>
+      </div>
+
+      <p class="hero__catch">
+        バイクで出かけて、写真を撮って、たまにゲームを作っています。
+      </p>
+    </section>
+
+
+    <!-- ==========================================
+         基本情報
+         ========================================== -->
+    <section class="section container">
+      <div class="paper paper--pin tilt-r1 fade-in">
+        <h2 class="heading">
+          じぶんのこと
+          <span class="heading__en">PROFILE</span>
+        </h2>
+
+        <dl class="profile-list">
+          <div class="profile-list__item">
+            <dt class="profile-list__label">なまえ</dt>
+            <dd class="profile-list__value">たにし ○○</dd>
+          </div>
+          <div class="profile-list__item">
+            <dt class="profile-list__label">出身</dt>
+            <dd class="profile-list__value">○○県○○市</dd>
+          </div>
+          <div class="profile-list__item">
+            <dt class="profile-list__label">いま住んでる</dt>
+            <dd class="profile-list__value">○○県</dd>
+          </div>
+          <div class="profile-list__item">
+            <dt class="profile-list__label">誕生日</dt>
+            <dd class="profile-list__value">○月○日</dd>
+          </div>
+        </dl>
+      </div>
+    </section>
+
+
+    <!-- ==========================================
+         好きなこと / 最近興味があること
+         ========================================== -->
+    <section class="section container">
+      <div class="paper paper--note paper--tape paper--tape-blue paper--tape-right tilt-l2 fade-in">
+        <h2 class="heading">
+          好きなこと
+          <span class="heading__en">FAVORITES</span>
+        </h2>
+
+        <!-- class="tag--pick" を付けると赤いふせんになります -->
+        <ul class="tag-list">
+          <li class="tag tag--pick">バイク</li>
+          <li class="tag">旅</li>
+          <li class="tag">写真</li>
+          <li class="tag">映画</li>
+          <li class="tag">ゲーム制作</li>
+          <li class="tag">○○</li>
+        </ul>
+
+        <h2 class="heading" style="margin-top: 28px;">
+          最近きになること
+          <span class="heading__en">RECENTLY</span>
+        </h2>
+
+        <ul class="tag-list">
+          <li class="tag">○○</li>
+          <li class="tag">○○</li>
+          <li class="tag">○○</li>
+        </ul>
+      </div>
+    </section>
+
+
+    <!-- ==========================================
+         愛車紹介
+         ========================================== -->
+    <section class="section container">
+      <div class="paper paper--pin paper--pin-blue paper--pin-right tilt-r2 fade-in">
+        <h2 class="heading">
+          あいぼう
+          <span class="heading__en">MY BIKE</span>
+        </h2>
+
+        <div class="bike">
+          <img
+            class="bike__photo"
+            src="img/bike/ct125.jpg"
+            alt="ホンダ CT125 ハンターカブ"
+            loading="lazy">
+
+          <div class="bike__info">
+            <h3 class="subheading">HONDA CT125</h3>
+
+            <p>
+              ここに愛車への思い入れを書きます。
+              買ったきっかけ、どこまで走ったか、気に入っているところなど。
+            </p>
+
+            <dl class="bike__spec">
+              <div class="bike__spec-item">
+                <dt class="bike__spec-label">車種</dt>
+                <dd>CT125 ハンターカブ</dd>
+              </div>
+              <div class="bike__spec-item">
+                <dt class="bike__spec-label">乗り始め</dt>
+                <dd>○○年〜</dd>
+              </div>
+              <div class="bike__spec-item">
+                <dt class="bike__spec-label">走行距離</dt>
+                <dd>○○km</dd>
+              </div>
+            </dl>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ==========================================
+         各ページへの入口
+         ========================================== -->
+    <section class="section container">
+      <h2 class="heading" style="color: #fdfbf5; text-align: center;">
+        もっと見る
+        <span class="heading__en" style="color: #f0e0c8;">CONTENTS</span>
+      </h2>
+
+      <ul class="menu-list">
+
+        <li class="paper paper--tape tilt-l1 fade-in">
+          <img class="menu-card__photo" src="img/travel/travel-thumb.jpg" alt="旅の写真" loading="lazy">
+          <h3 class="menu-card__title">旅の記録</h3>
+          <p class="menu-card__text">走った道と、その日のこと。地図から辿れます。</p>
+          <a class="btn" href="travel.html">みてみる →</a>
+        </li>
+
+        <li class="paper paper--pin paper--pin-blue tilt-r1 fade-in">
+          <img class="menu-card__photo" src="img/works/works-thumb.jpg" alt="作品" loading="lazy">
+          <h3 class="menu-card__title">つくったもの</h3>
+          <p class="menu-card__text">できることと、作ったゲーム。</p>
+          <a class="btn btn--blue" href="works.html">みてみる →</a>
+        </li>
+
+        <li class="paper paper--tape paper--tape-blue paper--tape-right tilt-r2 fade-in">
+          <img class="menu-card__photo" src="img/movies/movies-thumb.jpg" alt="映画" loading="lazy">
+          <h3 class="menu-card__title">観た映画</h3>
+          <p class="menu-card__text">感想をすこしずつ。</p>
+          <a class="btn btn--dark" href="movies.html">みてみる →</a>
+        </li>
+
+        <li class="paper paper--pin tilt-l2 fade-in">
+          <img class="menu-card__photo" src="img/gallery/gallery-thumb.jpg" alt="写真" loading="lazy">
+          <h3 class="menu-card__title">写真</h3>
+          <p class="menu-card__text">出かけ先で撮ったもの。</p>
+          <a class="btn" href="gallery.html">みてみる →</a>
+        </li>
+
+      </ul>
+    </section>
+
+
+    <!-- ==========================================
+         更新履歴
+         ========================================== -->
+    <section class="section container">
+      <div class="paper paper--note paper--pin paper--pin-right tilt-r1 fade-in">
+        <h2 class="heading">
+          更新のきろく
+          <span class="heading__en">UPDATES</span>
+        </h2>
+
+        <!-- 新しいものを上に追加していきます -->
+        <ul class="news-list">
+          <li class="news-list__item">
+            <time class="news-list__date" datetime="2026-07-29">2026.07.29</time>
+            <span class="news-list__text">ホームページを作りはじめました。</span>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+  </main>
+
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>&copy; 2026 たにし堂</p>
+    </div>
+  </footer>
+
+
+  <!-- JSは body の一番下で読み込む -->
+  <script src="js/common.js"></script>
+  <script src="js/index.js"></script>
 </body>
 </html>

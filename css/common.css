@@ -1,0 +1,378 @@
+/* ========================================
+   common.css
+   全ページ共通のスタイル。
+
+   デザインの考え方：
+   「コルクボードに、雑誌の切り抜きや写真を
+     マスキングテープと画鋲で留めた」見た目。
+
+   ・背景 = コルクボード（画像は使わずCSSだけで作る）
+   ・中身 = 紙（.paper）を少し傾けて貼る
+   ・留め具 = テープ（.paper--tape）／画鋲（.paper--pin）
+
+   ★モバイルファースト
+     まずスマホの見た目を書き、末尾の @media で広い画面を上書きする。
+   ======================================== */
+
+
+/* ========================================
+   1. CSS変数（ここを変えるとサイト全体が変わる）
+   ======================================== */
+:root {
+  /* --- コルクボード --- */
+  --cork-base: #c8a06a;      /* コルクの地の色 */
+  --cork-dot-a: #b98f57;     /* コルクの粒（濃い） */
+  --cork-dot-b: #d4b07d;     /* コルクの粒（薄い） */
+
+  /* --- 紙 --- */
+  --paper: #fdfbf5;          /* 白い紙 */
+  --paper-note: #fff8e2;     /* メモ用紙（うっすら黄色） */
+  --paper-edge: #e8e3d6;     /* 紙のふち */
+
+  /* --- 文字 --- */
+  --text: #2b2620;           /* 本文 */
+  --text-sub: #7d7466;       /* 補足・キャプション */
+
+  /* --- バイクカラー（テープと画鋲に使う） --- */
+  --red: #d64a3c;
+  --red-dark: #a8382c;
+  --blue: #3a6ea5;
+  --blue-dark: #2c5580;
+
+  /* --- 余白 --- */
+  --space-xs: 8px;
+  --space-sm: 16px;
+  --space-md: 24px;
+  --space-lg: 40px;
+  --space-xl: 64px;
+
+  /* --- 文字サイズ --- */
+  --font-xs: 0.75rem;    /* 12px */
+  --font-sm: 0.875rem;   /* 14px */
+  --font-base: 1rem;     /* 16px */
+  --font-lg: 1.25rem;    /* 20px */
+  --font-xl: 1.5rem;     /* 24px */
+  --font-2xl: 2rem;      /* 32px */
+
+  /* --- その他 --- */
+  --content-width: 900px;
+  /* 紙が浮いて見える影 */
+  --paper-shadow: 2px 3px 6px rgba(80, 50, 20, 0.28);
+  --paper-shadow-lift: 3px 6px 12px rgba(80, 50, 20, 0.34);
+
+  /* 見出しなどに使う明朝体 */
+  --font-serif: "Hiragino Mincho ProN", "Yu Mincho", "YuMincho",
+                "MS PMincho", serif;
+  /* 本文に使うゴシック体 */
+  --font-sans: "Hiragino Sans", "Hiragino Kaku Gothic ProN",
+               "Yu Gothic", "Meiryo", sans-serif;
+}
+
+
+/* ========================================
+   2. コルクボードの背景
+   ・radial-gradient（円形のグラデーション）で小さな点を作り、
+     background-size でタイル状に繰り返してコルクの粒を表現する
+   ・2種類の点をずらして重ねると、規則的すぎない質感になる
+   ======================================== */
+body {
+  background-color: var(--cork-base);
+  background-image:
+    radial-gradient(var(--cork-dot-a) 1px, transparent 1px),
+    radial-gradient(var(--cork-dot-b) 1px, transparent 1px);
+  background-size: 7px 7px, 11px 11px;
+  background-position: 0 0, 4px 5px;
+
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-size: var(--font-base);
+  line-height: 1.9;
+  /* 紙を傾けたときに横スクロールが出ないようにする */
+  overflow-x: hidden;
+}
+
+
+/* ========================================
+   3. レイアウトの箱
+   ======================================== */
+.container {
+  width: 100%;
+  max-width: var(--content-width);
+  margin-inline: auto;
+  padding-inline: var(--space-sm);
+}
+
+.section {
+  padding-block: var(--space-md);
+}
+
+
+/* ========================================
+   4. 紙（.paper）
+   このサイトの中身はすべてこの「紙」の上に乗る
+   ======================================== */
+.paper {
+  position: relative;              /* テープや画鋲を配置する基準になる */
+  background-color: var(--paper);
+  padding: var(--space-md) var(--space-sm) var(--space-sm);
+  box-shadow: var(--paper-shadow);
+  /* 角を少しだけ不揃いにして、手で切った紙らしさを出す */
+  border-radius: 2px 3px 2px 4px;
+}
+
+/* メモ用紙（うっすら黄色い紙） */
+.paper--note {
+  background-color: var(--paper-note);
+}
+
+/* --- 傾き ---
+   .paper に一緒に付けて使う。
+   全部同じ角度だとわざとらしいので数種類用意する */
+.tilt-l1 { transform: rotate(-1.2deg); }
+.tilt-l2 { transform: rotate(-2.2deg); }
+.tilt-r1 { transform: rotate(1.2deg); }
+.tilt-r2 { transform: rotate(2deg); }
+
+
+/* ========================================
+   5. 留め具：マスキングテープ
+   紙の上端に貼りつく半透明のテープ。
+   .paper--tape を付けると出る。
+   ======================================== */
+.paper--tape::before {
+  content: "";
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  margin-left: -34px;              /* 幅の半分だけ左にずらして中央に置く */
+  width: 68px;
+  height: 22px;
+  background-color: rgba(214, 74, 60, 0.75);   /* 赤いテープ */
+  transform: rotate(-3deg);
+  /* テープの端をギザギザに見せる（左右を少し削る） */
+  clip-path: polygon(3% 0, 97% 0, 100% 100%, 0 100%);
+}
+
+/* 青いテープにしたいとき */
+.paper--tape-blue::before {
+  background-color: rgba(58, 110, 165, 0.7);
+}
+
+/* テープを右上に寄せたいとき */
+.paper--tape-right::before {
+  left: auto;
+  right: 14px;
+  margin-left: 0;
+  width: 52px;
+  transform: rotate(6deg);
+}
+
+
+/* ========================================
+   6. 留め具：画鋲
+   ======================================== */
+.paper--pin::before {
+  content: "";
+  position: absolute;
+  top: -9px;
+  left: 16px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background-color: var(--red);
+  border: 2px solid var(--red-dark);
+}
+
+/* 青い画鋲 */
+.paper--pin-blue::before {
+  background-color: var(--blue);
+  border-color: var(--blue-dark);
+}
+
+/* 画鋲を右に寄せたいとき */
+.paper--pin-right::before {
+  left: auto;
+  right: 16px;
+}
+
+
+/* ========================================
+   7. 見出し
+   ======================================== */
+.heading {
+  font-family: var(--font-serif);
+  font-size: var(--font-xl);
+  margin-bottom: var(--space-xs);
+}
+
+.heading__en {
+  display: block;
+  font-family: var(--font-sans);
+  font-size: var(--font-xs);
+  letter-spacing: 0.18em;
+  color: var(--text-sub);
+}
+
+/* 紙の中の小見出し */
+.subheading {
+  font-family: var(--font-serif);
+  font-size: var(--font-lg);
+  margin-bottom: var(--space-xs);
+}
+
+
+/* ========================================
+   8. ボタン（テープを貼ったようなラベル）
+   ======================================== */
+.btn {
+  display: inline-block;
+  padding: 6px 18px;
+  background-color: var(--red);
+  color: var(--paper);
+  font-size: var(--font-sm);
+  transform: rotate(-1deg);
+  transition: transform 0.15s, background-color 0.15s;
+  min-height: 34px;
+}
+
+.btn:hover {
+  transform: rotate(-1deg) scale(1.04);
+}
+
+.btn--blue {
+  background-color: var(--blue);
+  transform: rotate(1deg);
+}
+
+.btn--blue:hover {
+  transform: rotate(1deg) scale(1.04);
+}
+
+.btn--dark {
+  background-color: #4a443a;
+  transform: none;
+}
+
+.btn--dark:hover {
+  transform: scale(1.04);
+}
+
+
+/* ========================================
+   9. ヘッダー / フッター
+   ======================================== */
+.site-header {
+  padding-block: var(--space-md) var(--space-xs);
+}
+
+.site-header__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-sm);
+}
+
+/* サイト名は小さな紙片に印刷されている風にする */
+.site-header__logo {
+  display: inline-block;
+  background-color: var(--paper);
+  padding: 4px 14px;
+  font-family: var(--font-serif);
+  font-size: var(--font-base);
+  box-shadow: var(--paper-shadow);
+  transform: rotate(-1.5deg);
+}
+
+.site-header__back {
+  display: inline-block;
+  background-color: var(--paper-note);
+  padding: 4px 12px;
+  font-size: var(--font-xs);
+  box-shadow: var(--paper-shadow);
+  transform: rotate(1deg);
+}
+
+.site-footer {
+  padding-block: var(--space-lg) var(--space-md);
+  text-align: center;
+  font-size: var(--font-xs);
+  /* コルクの上に直接書く文字なので、少し明るくして読みやすくする */
+  color: #6b5232;
+}
+
+
+/* ========================================
+   10. 写真（チェキ／ポラロイド風）
+   白いフチをつけて、下に手書き風のキャプションを置く
+   ======================================== */
+.photo {
+  display: block;
+  background-color: var(--paper);
+  padding: 8px 8px 6px;
+  box-shadow: var(--paper-shadow);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.photo__img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;               /* 縦横比を保ったまま枠に収める */
+  background-color: #ddd7c9;       /* 画像がまだ無いときの下地 */
+}
+
+.photo__caption {
+  font-family: var(--font-serif);
+  font-size: var(--font-xs);
+  color: #4a443a;
+  text-align: center;
+  margin-top: 6px;
+}
+
+/* リンクになっている写真は、触ると少し持ち上がる */
+a.photo:hover {
+  transform: scale(1.03) rotate(0.5deg);
+  box-shadow: var(--paper-shadow-lift);
+}
+
+
+/* ========================================
+   11. スクロールでふわっと表示（common.js と連動）
+   ======================================== */
+.fade-in {
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+
+.fade-in.is-visible {
+  opacity: 1;
+}
+
+/* 「動きが苦手」設定の人にはアニメーションを見せない */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .fade-in { opacity: 1; transition: none; }
+  .photo, .btn { transition: none; }
+}
+
+
+/* ========================================
+   12. タブレット以上（768px〜）
+   ======================================== */
+@media (min-width: 768px) {
+  :root {
+    --font-xl: 1.75rem;
+    --font-2xl: 2.5rem;
+  }
+
+  .container {
+    padding-inline: var(--space-md);
+  }
+
+  .section {
+    padding-block: var(--space-lg);
+  }
+
+  .paper {
+    padding: var(--space-md);
+  }
+}
