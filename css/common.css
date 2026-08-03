@@ -200,12 +200,7 @@ body {
   color: var(--paper);
   font-size: var(--font-sm);
   transform: rotate(-1deg);
-  transition: transform 0.15s, background-color 0.15s;
   min-height: 34px;
-}
-
-.btn:hover {
-  transform: rotate(-1deg) scale(1.04);
 }
 
 .btn--blue {
@@ -213,17 +208,9 @@ body {
   transform: rotate(1deg);
 }
 
-.btn--blue:hover {
-  transform: rotate(1deg) scale(1.04);
-}
-
 .btn--dark {
   background-color: #4a443a;
   transform: none;
-}
-
-.btn--dark:hover {
-  transform: scale(1.04);
 }
 
 
@@ -275,7 +262,6 @@ body {
   background-color: var(--paper);
   padding: 8px 8px 6px;
   box-shadow: var(--paper-shadow);
-  transition: transform 0.2s, box-shadow 0.2s;
 }
 
 .photo__img {
@@ -293,12 +279,6 @@ body {
   margin-top: 6px;
 }
 
-/* リンクになっている写真は、触ると少し持ち上がる */
-a.photo:hover {
-  transform: scale(1.03) rotate(0.5deg);
-  box-shadow: var(--paper-shadow-lift);
-}
-
 
 /* ── 11. スクロールでふわっと表示（common.js と連動） ── */
 .fade-in {
@@ -314,7 +294,6 @@ a.photo:hover {
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .fade-in { opacity: 1; transition: none; }
-  .photo, .btn { transition: none; }
 }
 
 
