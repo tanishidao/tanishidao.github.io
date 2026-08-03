@@ -1,18 +1,11 @@
-/* ========================================
-   common.js
-   全ページで共通して動かす処理。
-   ======================================== */
+/* ── common.js：全ページで共通して動かす処理 ── */
 
 document.addEventListener('DOMContentLoaded', function () {
 
-  /* ----------------------------------------
-     スクロールでふわっと表示させる
-
-     1. class="fade-in" が付いた要素を集める
-     2. 画面に入ったかを IntersectionObserver で監視する
-     3. 入ったら is-visible クラスを付ける
-        → common.css の .fade-in.is-visible が効いて表示される
-     ---------------------------------------- */
+  // ── スクロールでふわっと表示させる ──
+  // 1. class="fade-in" が付いた要素を集める
+  // 2. 画面に入ったかを IntersectionObserver で監視する
+  // 3. 入ったら is-visible クラスを付ける → common.css の .fade-in.is-visible で表示される
 
   const fadeElements = document.querySelectorAll('.fade-in');
 
