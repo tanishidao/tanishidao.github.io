@@ -1,0 +1,131 @@
+[
+  {
+    "id": 1,
+    "name": "ニッカウヰスキーの看板",
+    "area": "北海道",
+    "date": "2023-05-13",
+    "lat": 43.0553,
+    "lng": 141.3530,
+    "memo": "探偵はばーにいるらしいよ",
+    "photos": [
+      "img/travel/hokkaido01.jpg"
+    ]
+  },
+  {
+    "id": 2,
+    "name": "地獄の東京タワー階段",
+    "area": "東京都",
+    "date": "2023-06-18",
+    "lat": 35.6586,
+    "lng": 139.7454,
+    "memo": "映画クレヨンしんちゃんを思い出しながら友人と踏破！足パンパンになりました",
+    "photos": [
+      "img/travel/tokyo01.jpg"
+    ]
+  },
+  {
+    "id": 3,
+    "name": "ドライブイン鳥 伊万里本店",
+    "area": "佐賀県",
+    "date": "2023-08-26",
+    "lat": 33.2649,
+    "lng": 129.9130,
+    "memo": "3はサラダでよい健康！ゾンビランドサガ第三話で登場！鳥めしは絶品でした",
+    "photos": [
+      "img/travel/saga01.jpg",
+      "img/travel/saga02.jpg",
+      "img/travel/saga03.jpg",
+      "img/travel/saga04.jpg"
+    ]
+  },
+  {
+    "id": 4,
+    "name": "秋芳洞",
+    "area": "山口県",
+    "date": "2023-09-17",
+    "lat": 34.2286,
+    "lng": 131.3036,
+    "memo": "本当に九月？！中は超冷え冷えでした",
+    "photos": [
+      "img/travel/yamaguchi01.jpg",
+      "img/travel/yamaguchi02.jpg"
+    ]
+  },
+  {
+    "id": 5,
+    "name": "赤べこと会津鶴ヶ城",
+    "area": "福島県",
+    "date": "2023-11-07",
+    "lat": 37.4876,
+    "lng": 139.9296,
+    "memo": "白虎隊になりきって周辺を探索！",
+    "photos": [
+      "img/travel/fukushima01.jpg",
+      "img/travel/fukushima02.jpg"
+    ]
+  },
+  {
+    "id": 6,
+    "name": "太陽の塔",
+    "area": "大阪府",
+    "date": "2024-10-05",
+    "lat": 34.8074,
+    "lng": 135.5320,
+    "memo": "なんだこれは！中も見てきたよ。昭和の香りがしました。",
+    "photos": [
+      "img/travel/osaka01.jpg",
+      "img/travel/osaka02.jpg"
+    ]
+  },
+  {
+    "id": 7,
+    "name": "明石海峡大橋",
+    "area": "兵庫県",
+    "date": "2025-06-28",
+    "lat": 34.6157,
+    "lng": 135.0208,
+    "memo": "なんと実際に上りました",
+    "photos": [
+      "img/travel/hyogo01.jpg",
+      "img/travel/hyogo02.jpg"
+    ]
+  },
+  {
+    "id": 8,
+    "name": "JR米子駅前「だんだん広場」",
+    "area": "鳥取県",
+    "date": "2025-08-13",
+    "lat": 35.4277,
+    "lng": 133.3330,
+    "memo": "青春18きっぷで山陰制覇！夜空とモニュメントがベストマッチ。車窓からの眺めはどこも絶景...",
+    "photos": [
+      "img/travel/tottori01.jpg",
+      "img/travel/tottori02.jpg"
+    ]
+  },
+  {
+    "id": 9,
+    "name": "大阪万博2026「中国パビリオン」",
+    "area": "大阪府",
+    "date": "2025-09-06",
+    "lat": 34.6494,
+    "lng": 135.3894,
+    "memo": "どのパビリオンもすごかった！中国パビリオンの入り口はすごかった",
+    "photos": [
+      "img/travel/osaka03.jpg"
+    ]
+  },
+  {
+    "id": 10,
+    "name": "淡路島by船",
+    "area": "兵庫県",
+    "date": "2026-07-19",
+    "lat": 34.5875,
+    "lng": 135.0203,
+    "memo": "はじめて船で淡路島上陸。今度はカブちゃんも一緒に上陸やね",
+    "photos": [
+      "img/travel/hyogo03.jpg",
+      "img/travel/hyogo04.jpg"
+    ]
+  }
+]
