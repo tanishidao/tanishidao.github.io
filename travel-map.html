@@ -30,25 +30,6 @@
             font-size: var(--font-base);
         }
 
-        /* モード切替：紙に貼ったタブ風。青が選択中 */
-        .mode-toggle {
-            display: inline-flex;
-            border: 1px solid var(--paper-edge);
-            border-radius: 6px;
-            overflow: hidden;
-        }
-        .mode-btn {
-            padding: 6px 14px;
-            border: none;
-            background: var(--paper);
-            color: var(--text-sub);
-            cursor: pointer;
-            font-size: var(--font-xs);
-        }
-        .mode-btn + .mode-btn { border-left: 1px solid var(--paper-edge); }
-        .mode-btn.active { background: var(--blue); color: var(--paper); font-weight: 700; }
-        .mode-btn:hover:not(.active) { background: var(--paper-note); }
-
         /* ─ 概要の数字カード */
         .stats-row { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-xs); margin-top: var(--space-sm); }
         .stat-card { background: var(--paper-note); border: 1px solid var(--paper-edge); border-radius: 8px; padding: 12px; text-align: center; }
@@ -121,7 +102,11 @@
 
         .empty-list { text-align: center; color: var(--text-sub); font-size: var(--font-xs); padding: 30px 16px; }
 
-        /* ─ タブレット以上：地図とサイドの紙を横並びにする */
+        /* ─ スマホ：地図を先に、リストの紙を後に表示する */
+        .map-layout { display: flex; flex-direction: column; gap: var(--space-sm); }
+        #map-paper { order: -1; }
+
+        /* ─ タブレット以上：地図とサイドの紙を横並びにする（リストが左） */
         @media (min-width: 900px) {
             .map-layout {
                 display: grid;
@@ -129,6 +114,7 @@
                 gap: var(--space-md);
                 align-items: start;
             }
+            #map-paper { order: 0; }
             #map { height: min(72vh, 640px); }
             .place-scroll { max-height: 52vh; }
         }
@@ -149,34 +135,24 @@
             font-size: 10px;
             line-height: 1.1;
         }
-        .stamp-marker.by-year { background: var(--year-color, var(--paper)); color: var(--paper); border-style: solid; }
 
         /* ─ ポップアップ（訪問地の詳細） */
-        .pu { min-width: 200px; max-width: 240px; }
+        .pu { min-width: 240px; max-width: 300px; }
         .pu-name { font-family: var(--font-serif); font-size: var(--font-base); font-weight: 700; color: var(--blue-dark); margin-bottom: 2px; }
         .pu-meta { font-size: 11px; color: var(--text-sub); margin-bottom: 8px; }
         .pu-memo { font-size: var(--font-xs); color: var(--text); line-height: 1.6; margin-bottom: 8px; white-space: pre-wrap; }
-        .pu-photos { display: flex; gap: 6px; flex-wrap: wrap; }
+        /* 写真がメインなので大きく見せる。写真は縦に並べて幅いっぱいに */
+        .pu-photos { display: grid; grid-template-columns: 1fr; gap: 8px; }
+        /* 写真が複数あるときは2列にして詰め込む */
+        .pu-photos.multi { grid-template-columns: 1fr 1fr; }
         .pu-photos img {
-            width: 56px; height: 56px;
+            width: 100%;
+            aspect-ratio: 4 / 3;
             object-fit: cover;
-            border-radius: 6px;
+            border-radius: 8px;
             cursor: zoom-in;
             border: 1px solid var(--paper-edge);
         }
-
-        /* ─ 凡例（年別モード時）：小さな紙片 */
-        .legend {
-            background: var(--paper);
-            padding: 10px 14px;
-            border-radius: 8px;
-            box-shadow: var(--paper-shadow);
-            font-size: var(--font-xs);
-            line-height: 1.9;
-        }
-        .legend-title { font-family: var(--font-serif); font-weight: 700; font-size: var(--font-xs); margin-bottom: 4px; }
-        .legend-row { display: flex; align-items: center; gap: 8px; }
-        .legend-swatch { width: 14px; height: 14px; border-radius: 50%; }
 
         /* ─ 写真ライトボックス */
         .lightbox {
@@ -217,19 +193,6 @@
                 旅の記録マップ
                 <span class="heading__en">TRAVEL MAP</span>
             </h1>
-            <p style="font-size: var(--font-sm); color: var(--text-sub);">
-                これまで訪ねた場所を、地図の上に貼りつけました。
-                ピンをタップすると、その日のことが出てきます。
-            </p>
-
-            <!-- 概要バッジ＋モード切替 -->
-            <div class="toolbar" style="margin-top: var(--space-sm);">
-                <span class="toolbar__count">これまで <span id="header-count">0件</span></span>
-                <div class="mode-toggle">
-                    <button class="mode-btn active" id="btn-pin"    onclick="setMode('pin')">📍 通常</button>
-                    <button class="mode-btn"        id="btn-byyear" onclick="setMode('byyear')">🎨 年別</button>
-                </div>
-            </div>
         </div>
     </section>
 
@@ -261,7 +224,7 @@
             </div>
 
             <!-- 右：地図を貼った紙（地図は傾けると操作できなくなるので水平のまま） -->
-            <div class="paper">
+            <div class="paper" id="map-paper">
                 <div id="map"></div>
             </div>
 
@@ -295,17 +258,12 @@
 // 訪問地データのJSONファイル（同じ階層に置く想定）
 const DATA_URL = 'travel-data.json';
 
-// 年別モードで使う色のパレット（年が増えるごとに順番に使う）
-const YEAR_PALETTE = ['#1e4d78', '#a63d2f', '#2e8b57', '#c98a1d', '#6a4c93', '#0f8b8d'];
-
 // ============================================================
 //  グローバル状態
 // ============================================================
 let places      = [];   // travel-data.json の中身
 let map         = null;
 let markerGroup = null;
-let legendCtrl  = null;
-let currentMode = 'pin';
 let activeId    = null; // サイドバーで選択中の訪問地id
 
 // ============================================================
@@ -357,7 +315,6 @@ function initMap() {
 function renderAll() {
     const list = getFilteredPlaces();
 
-    document.getElementById('header-count').textContent = `${places.length}件`;
     document.getElementById('stat-total').textContent    = places.length;
     document.getElementById('stat-area').textContent     = countUniqueAreas(places);
 
@@ -461,30 +418,20 @@ function renderMarkers(list) {
     markersById = {};
 
     list.forEach(p => {
-        const icon = (currentMode === 'byyear')
-            ? makeStampIcon(p, yearColorOf(p.date))
-            : makeStampIcon(p, null);
-
-        const marker = L.marker([p.lat, p.lng], { icon });
-        marker.bindPopup(buildPopupHtml(p), { maxWidth: 260 });
+        const marker = L.marker([p.lat, p.lng], { icon: makeStampIcon(p) });
+        marker.bindPopup(buildPopupHtml(p), { maxWidth: 320 });
         marker.on('popupopen', () => bindLightboxHandlers(p));
 
         markerGroup.addLayer(marker);
         markersById[p.id] = marker;
     });
-
-    if (currentMode === 'byyear') renderLegend(list);
-    else if (legendCtrl) { map.removeControl(legendCtrl); legendCtrl = null; }
 }
 
-// スタンプ風の丸いdivIconを作る。yearColorを渡すと年別モードの塗りつぶし色になる
-function makeStampIcon(p, yearColor) {
+// スタンプ風の丸いdivIconを作る
+function makeStampIcon(p) {
     const label = stampLabel(p.date);
-    const style = yearColor
-        ? `background:${yearColor}; color:white; border-style:solid;`
-        : '';
     return L.divIcon({
-        html: `<div class="stamp-marker" style="${style}">${label}</div>`,
+        html: `<div class="stamp-marker">${label}</div>`,
         iconSize: [44, 44],
         iconAnchor: [22, 22],
         popupAnchor: [0, -22],
@@ -494,7 +441,7 @@ function makeStampIcon(p, yearColor) {
 
 function buildPopupHtml(p) {
     const photosHtml = (p.photos && p.photos.length > 0)
-        ? `<div class="pu-photos">` +
+        ? `<div class="pu-photos ${p.photos.length > 1 ? 'multi' : ''}">` +
             p.photos.map(src => `<img src="${escHtml(src)}" data-full="${escHtml(src)}" onerror="this.style.display='none'">`).join('') +
           `</div>`
         : '';
@@ -517,48 +464,6 @@ function bindLightboxHandlers(p) {
             openLightbox(img.dataset.full);
         };
     });
-}
-
-// ============================================================
-//  年別モード（色分け・凡例）
-// ============================================================
-function yearOf(dateStr) {
-    return dateStr ? dateStr.slice(0, 4) : '不明';
-}
-
-function yearColorOf(dateStr) {
-    const years = [...new Set(places.map(p => yearOf(p.date)))].sort();
-    const idx   = years.indexOf(yearOf(dateStr));
-    return YEAR_PALETTE[idx % YEAR_PALETTE.length];
-}
-
-function renderLegend(list) {
-    if (legendCtrl) map.removeControl(legendCtrl);
-
-    const years = [...new Set(list.map(p => yearOf(p.date)))].sort();
-
-    legendCtrl = L.control({ position: 'bottomright' });
-    legendCtrl.onAdd = () => {
-        const div = L.DomUtil.create('div', 'legend');
-        div.innerHTML = '<div class="legend-title">訪問年</div>' +
-            years.map((y, i) => `
-                <div class="legend-row">
-                    <div class="legend-swatch" style="background:${YEAR_PALETTE[i % YEAR_PALETTE.length]}"></div>${y}年
-                </div>
-            `).join('');
-        return div;
-    };
-    legendCtrl.addTo(map);
-}
-
-// ============================================================
-//  表示モード切替（通常ピン / 年別色分け）
-// ============================================================
-function setMode(mode) {
-    currentMode = mode;
-    document.getElementById('btn-pin').classList.toggle('active',    mode === 'pin');
-    document.getElementById('btn-byyear').classList.toggle('active', mode === 'byyear');
-    renderMarkers(getFilteredPlaces());
 }
 
 // ============================================================
